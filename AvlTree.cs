@@ -28,7 +28,7 @@ namespace AVL_Trees_PA3
     * Note that all "matching" is based on the compareTo method.
     * @author Mark Allen Weiss
     */
-    public class AvlTree<AnyType : IComparable<? super AnyType>>
+    public class AvlTree<AnyType> where AnyType : IComparable
     {
         /**
         * Construct the tree.
@@ -66,7 +66,7 @@ namespace AVL_Trees_PA3
         {
             if (t == null)
                 return t; // Item not found; do nothing
-            int compareResult = x.compareTo(t.element);
+            int compareResult = x.CompareTo(t.element);
             if (compareResult < 0)
                 t.left = remove(x, t.left);
             else if (compareResult > 0)
@@ -87,7 +87,7 @@ namespace AVL_Trees_PA3
         */
         public AnyType findMin()
         {
-            AnyType min = null;
+            AnyType min = default(AnyType);
             if (!isEmpty())
                 min = findMin(root).element;
             return min;
@@ -99,7 +99,7 @@ namespace AVL_Trees_PA3
         */
         public AnyType findMax()
         {
-            AnyType max = null;
+            AnyType max = default(AnyType);
             if (!isEmpty())
             {
                 max = findMax(root).element;
@@ -146,7 +146,7 @@ namespace AVL_Trees_PA3
         }
 
         //readonly = final
-        private static readonly int ALLOWED_IMBALANCE = 1;
+        private readonly int ALLOWED_IMBALANCE = 1;
         
         // Assume t is either balanced or within one of being balanced
         private AvlNode<AnyType> balance(AvlNode<AnyType> t)
@@ -164,7 +164,7 @@ namespace AVL_Trees_PA3
                     t = rotateWithRightChild(t);
                 else
                     t = doubleWithRightChild(t);
-            t.height = Math.max(height(t.left), height(t.right)) + 1;
+            t.height = Math.Max(height(t.left), height(t.right)) + 1;
             return t;
         }
 
@@ -181,9 +181,9 @@ namespace AVL_Trees_PA3
             {
                 int hl = checkBalance(t.left);
                 int hr = checkBalance(t.right);
-                if (Math.abs(height(t.left) - height(t.right)) > 1 ||
+                if (Math.Abs(height(t.left) - height(t.right)) > 1 ||
                 height(t.left) != hl || height(t.right) != hr)
-                    System.out.println("OOPS!!");
+                    Console.WriteLine("OOPS!!");
             }
             return height(t);
         }
@@ -197,8 +197,12 @@ namespace AVL_Trees_PA3
         private AvlNode<AnyType> insert(AnyType x, AvlNode<AnyType> t)
         {
             if (t == null)
-                return new AvlNode<>(x, null, null);
-            int compareResult = x.compareTo(t.element);
+            {
+                AvlNode<AnyType> node = new AvlNode<AnyType> (x);
+                return node;
+            }
+               // return new AvlNode<AnyType>(x, null, null);
+            int compareResult = x.CompareTo(t.element);
             if (compareResult < 0)
                 t.left = insert(x, t.left);
             else if (compareResult > 0)
@@ -246,7 +250,7 @@ namespace AVL_Trees_PA3
         {
             while (t != null)
             {
-                int compareResult = x.compareTo(t.element);
+                int compareResult = x.CompareTo(t.element);
                 if (compareResult < 0)
                     t = t.left;
                 else if (compareResult > 0)
@@ -288,8 +292,8 @@ namespace AVL_Trees_PA3
             AvlNode<AnyType> k1 = k2.left;
             k2.left = k1.right;
             k1.right = k2;
-            k2.height = Math.max(height(k2.left), height(k2.right)) + 1;
-            k1.height = Math.max(height(k1.left), k2.height) + 1;
+            k2.height = Math.Max(height(k2.left), height(k2.right)) + 1;
+            k1.height = Math.Max(height(k1.left), k2.height) + 1;
             return k1;
         }
 
@@ -303,8 +307,8 @@ namespace AVL_Trees_PA3
             AvlNode<AnyType> k2 = k1.right;
             k1.right = k2.left;
             k2.left = k1;
-            k1.height = Math.max(height(k1.left), height(k1.right)) + 1;
-            k2.height = Math.max(height(k2.right), k1.height) + 1;
+            k1.height = Math.Max(height(k1.left), height(k1.right)) + 1;
+            k2.height = Math.Max(height(k2.right), k1.height) + 1;
             return k2;
         }
 
@@ -332,15 +336,17 @@ namespace AVL_Trees_PA3
             return rotateWithRightChild(k1);
         }
 
-        private static class AvlNode<AnyType>
+         class AvlNode<AnyType> //where AnyType : IComparable<AnyType> 
         {
             // Constructors
-            AvlNode(AnyType theElement)
+            public AvlNode(AnyType theElement)
             {
-                this(theElement, null, null);
+                element = theElement;
+                left = null;
+                right = null;
             }
 
-            AvlNode(AnyType theElement, AvlNode<AnyType> lt, AvlNode<AnyType> rt)
+            public AvlNode(AnyType theElement, AvlNode<AnyType> lt, AvlNode<AnyType> rt)
             {
                 element = theElement;
                 left = lt;
@@ -348,10 +354,10 @@ namespace AVL_Trees_PA3
                 height = 0;
             }
 
-            AnyType element; // The data in the node
-            AvlNode<AnyType> left; // Left child
-            AvlNode<AnyType> right; // Right child
-            int height; // Height
+            public AnyType element; // The data in the node
+            public AvlNode<AnyType> left; // Left child
+            public AvlNode<AnyType> right; // Right child
+            public int height; // Height
         }
         /** The tree root. */
         private AvlNode<AnyType> root;

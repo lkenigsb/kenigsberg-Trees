@@ -30,26 +30,27 @@ namespace AVL_Trees_PA3
     * removed reliance on UnderflowException
     * rearranged the order of methods
     */
-    public class BinarySearchTree<AnyType : Comparable<? super AnyType>>
+    public class BinarySearchTree<AnyType> where AnyType : IComparable
     {
         // Basic node stored in unbalanced binary search trees
 
-        private static class BinaryNode<AnyType>
+        class BinaryNode<AnyType>
         {
             // Constructors
-            BinaryNode(AnyType theElement)
+            public BinaryNode(AnyType theElement)
             {
-                this(theElement, null, null);
-            }
-            BinaryNode(AnyType theElement, BinaryNode<AnyType> lt, BinaryNode<AnyType> rt)
+                element = theElement;
+                left = null;
+                right = null;            }
+            public BinaryNode(AnyType theElement, BinaryNode<AnyType> lt, BinaryNode<AnyType> rt)
             {
                 element = theElement;
                 left = lt;
                 right = rt;
             }
-            AnyType element; // The data in the node
-            BinaryNode<AnyType> left; // Left child
-            BinaryNode<AnyType> right; // Right child
+            public AnyType element; // The data in the node
+            public BinaryNode<AnyType> left; // Left child
+            public BinaryNode<AnyType> right; // Right child
         }
 
         /** The tree root. */
@@ -87,7 +88,7 @@ namespace AVL_Trees_PA3
         */
         public AnyType findMin()
         {
-            AnyType found = null;
+            AnyType found = default(AnyType);
             if (!isEmpty())
             {
                 found = findMin(root).element;
@@ -102,7 +103,7 @@ namespace AVL_Trees_PA3
         */
         public AnyType findMax()
         {
-            AnyType found = null;
+            AnyType found = default(AnyType);
             if (!isEmpty())
             {
                 found = findMax(root).element;
@@ -152,12 +153,11 @@ namespace AVL_Trees_PA3
         * return a string with a visual representation of BST
         * @return String representation of the tree
         */
-        @Override
-        public String toString()
+        public override String ToString()
         {
             StringBuilder buffer = new StringBuilder(50);
             toStr(root, buffer, "", "");
-            return buffer.toString();
+            return buffer.ToString();
         }
         /*----------------------------------------------------------
         *
@@ -173,8 +173,8 @@ namespace AVL_Trees_PA3
         private BinaryNode<AnyType> insert(AnyType x, BinaryNode<AnyType> t)
         {
             if (t == null)
-                return new BinaryNode<>(x, null, null);
-            int compareResult = x.compareTo(t.element);
+                return new BinaryNode<AnyType>(x, null, null);
+            int compareResult = x.CompareTo(t.element);
             if (compareResult < 0)
                 t.left = insert(x, t.left);
             else if (compareResult > 0)
@@ -194,7 +194,7 @@ namespace AVL_Trees_PA3
         {
             if (t == null)
                 return t; // Item not found; do nothing
-            int compareResult = x.compareTo(t.element);
+            int compareResult = x.CompareTo(t.element);
             if (compareResult < 0)
                 t.left = remove(x, t.left);
             else if (compareResult > 0)
@@ -246,7 +246,7 @@ namespace AVL_Trees_PA3
         {
             if (t == null)
                 return false;
-            int compareResult = x.compareTo(t.element);
+            int compareResult = x.CompareTo(t.element);
             if (compareResult < 0)
                 return contains(x, t.left);
             else if (compareResult > 0)
@@ -282,7 +282,7 @@ namespace AVL_Trees_PA3
         String childrenPrefix)
         {
             buffer.Append(prefix);
-            buffer.Append(node.element.toString());
+            buffer.Append(node.element.ToString());
             buffer.Append('\n');
             if (node.right != null)
             {

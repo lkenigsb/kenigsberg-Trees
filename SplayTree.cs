@@ -27,14 +27,14 @@ namespace AVL_Trees_PA3
     * Note that all "matching" is based on the compareTo method.
     * @author Mark Allen Weiss
 */
-    public class SplayTree<AnyType : IComparable<? super AnyType>>
+    public class SplayTree<AnyType> where AnyType : IComparable
     {
         /**
         * Construct the tree.
         */
         public SplayTree()
         {
-            nullNode = new BinaryNode<AnyType>(null);
+            nullNode = new BinaryNode<AnyType>(default(AnyType));
             nullNode.left = nullNode.right = nullNode;
             root = nullNode;
         }
@@ -49,7 +49,7 @@ namespace AVL_Trees_PA3
         public void insert(AnyType x)
         {
             if (newNode == null)
-                newNode = new BinaryNode<AnyType>(null);
+                newNode = new BinaryNode<AnyType>(default(AnyType));
             newNode.element = x;
             if (root == nullNode)
             {
@@ -59,7 +59,7 @@ namespace AVL_Trees_PA3
             else
             {
                 root = splay(x, root);
-                int compareResult = x.compareTo(root.element);
+                int compareResult = x.CompareTo(root.element);
                 if (compareResult < 0)
                 {
                     newNode.left = root.left;
@@ -115,7 +115,7 @@ namespace AVL_Trees_PA3
         */
         public AnyType findMin()
         {
-            AnyType min = null;
+            AnyType min = default(AnyType);
             if (!isEmpty())
             {
                 BinaryNode<AnyType> ptr = root;
@@ -138,7 +138,7 @@ namespace AVL_Trees_PA3
         */
         public AnyType findMax()
         {
-            AnyType max = null;
+            AnyType max = default(AnyType);
             if (!isEmpty())
             {
                 BinaryNode<AnyType> ptr = root;
@@ -161,7 +161,7 @@ namespace AVL_Trees_PA3
             if (isEmpty())
                 return false;
             root = splay(x, root);
-            return root.element.compareTo(x) == 0;
+            return root.element.CompareTo(x) == 0;
         }
 
         /**
@@ -182,7 +182,7 @@ namespace AVL_Trees_PA3
             return root == nullNode;
         }
 
-        private BinaryNode<AnyType> header = new BinaryNode<AnyType>(null); // For splay
+        private BinaryNode<AnyType> header = new BinaryNode<AnyType>(default(AnyType)); // For splay
 
         /**
         * Internal method to perform a top-down splay.
@@ -200,10 +200,10 @@ namespace AVL_Trees_PA3
             nullNode.element = x; // Guarantee a match
             for (; ; )
             {
-                int compareResult = x.compareTo(t.element);
+                int compareResult = x.CompareTo(t.element);
                 if (compareResult < 0)
                 {
-                    if (x.compareTo(t.left.element) < 0)
+                    if (x.CompareTo(t.left.element) < 0)
                         t = rotateWithLeftChild(t);
                     if (t.left == nullNode)
                         break;
@@ -214,7 +214,7 @@ namespace AVL_Trees_PA3
                 }
                 else if (compareResult > 0)
                 {
-                    if (x.compareTo(t.right.element) > 0)
+                    if (x.CompareTo(t.right.element) > 0)
                         t = rotateWithRightChild(t);
                     if (t.right == nullNode)
                         break;
@@ -237,8 +237,7 @@ namespace AVL_Trees_PA3
         * Rotate binary tree node with left child.
         * For AVL trees, this is a single rotation for case 1.
         */
-        private static <AnyType> BinaryNode<AnyType>
-        rotateWithLeftChild(BinaryNode<AnyType> k2)
+        private BinaryNode<AnyType> rotateWithLeftChild(BinaryNode<AnyType> k2)
         {
             BinaryNode<AnyType> k1 = k2.left;
             k2.left = k1.right;
@@ -250,8 +249,7 @@ namespace AVL_Trees_PA3
         * Rotate binary tree node with right child.
         * For AVL trees, this is a single rotation for case 4.
         */
-        private static <AnyType> BinaryNode<AnyType>
-        rotateWithRightChild(BinaryNode<AnyType> k1)
+        private BinaryNode<AnyType> rotateWithRightChild(BinaryNode<AnyType> k1)
         {
             BinaryNode<AnyType> k2 = k1.right;
             k1.right = k2.left;
@@ -260,23 +258,25 @@ namespace AVL_Trees_PA3
         }
 
         // Basic node stored in unbalanced binary search trees
-        private static class BinaryNode<AnyType>
+        class BinaryNode<AnyType>
         {
             // Constructors
-            BinaryNode(AnyType theElement)
+            public BinaryNode(AnyType theElement)
             {
-                this(theElement, null, null);
+                element = theElement;
+                left = null;
+                right = null;
             }
 
-            BinaryNode(AnyType theElement, BinaryNode<AnyType> lt, BinaryNode<AnyType> rt)
+            public BinaryNode(AnyType theElement, BinaryNode<AnyType> lt, BinaryNode<AnyType> rt)
             {
                 element = theElement;
                 left = lt;
                 right = rt;
             }
-            AnyType element; // The data in the node
-            BinaryNode<AnyType> left; // Left child
-            BinaryNode<AnyType> right; // Right child
+            public AnyType element; // The data in the node
+            public BinaryNode<AnyType> left; // Left child
+            public BinaryNode<AnyType> right; // Right child
         }
         private BinaryNode<AnyType> root;
         private BinaryNode<AnyType> nullNode;

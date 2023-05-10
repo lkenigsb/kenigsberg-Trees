@@ -1,8 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System.Diagnostics;
 using System.Reflection;
+using AVL_Trees_PA3;
 
-Console.WriteLine("Hello, World!");
 
 /**
  * 
@@ -17,6 +17,7 @@ Console.WriteLine("Hello, World!");
 
 namespace AVL_Trees_PA3
 {
+
     public class Program
     {
 
@@ -37,26 +38,43 @@ namespace AVL_Trees_PA3
         Stopwatch AVLRemovalWatch;
         Stopwatch BSTRemovalWatch;
         Stopwatch SplayRemovalWatch;
+
+        AvlTree<int> AvlTree;
+        BinarySearchTree<int> BinarySearchTree;
+        SplayTree<int> SplayTree;
+
+        public Program() {
+            AvlTree = new AvlTree<int>();
+            BinarySearchTree= new BinarySearchTree<int>();
+            SplayTree = new SplayTree<int>();
+        }
+        
+
         public void InsertionAVL()
         {
             //begins calculating the execution time
             AVLInsertWatch = Stopwatch.StartNew();
 
-            //Create AVL tree
-
-            for (int i = 0; i < 999999; i++)
+            int gap = 7919;
+            
+            for (int i = 0; i < 1000000; ++i)
             {
-                //treeName.insert(i)
+                AvlTree.insert(gap);
+                gap += 7919;
+                if(gap > 1000000)
+                {
+                    gap %= 1000000;
+                }
             }
 
             Boolean allThere = true;
-            for(int i = 0; i < 999999; i++)
+            for(int i = 1; i <= 1000000; i++)
             {
                 //check that all numbers were inserted - use contains method
-                if(//treeName.contains(i) == false)
+                if(AvlTree.contains(i) == false)
                 {
                     allThere = false;
-                    Console.WriteLine("Not all numbers are in the AVL Tree correctly");
+                    Console.WriteLine("When inserting - Not all numbers are in the AVL Tree correctly");
                     break;
                 }
             }
@@ -70,19 +88,23 @@ namespace AVL_Trees_PA3
             //begins calculating the execution time
             BSTInsertionWatch = Stopwatch.StartNew();
 
-            //Create BST tree
+            int gap = 7919;
 
-
-            for (int i = 0; i < 999999; i++)
+            for (int i = 0; i < 1000000; ++i)
             {
-                //treeName.insert(i)
+                BinarySearchTree.insert(gap);
+                gap += 7919;
+                if (gap > 1000000)
+                {
+                    gap %= 1000000;
+                }
             }
 
             Boolean allThere = true;
-            for (int i = 0; i < 999999; i++)
+            for (int i = 1; i <= 1000000; i++)
             {
                 //check that all numbers were inserted - use contains method
-                if (//treeName.contains(i) == false)
+                if (BinarySearchTree.contains(i) == false)
                 {
                     allThere = false;
                     Console.WriteLine("Not all numbers are in the BST Tree correctly");
@@ -98,19 +120,23 @@ namespace AVL_Trees_PA3
             //begins calculating the execution time
             SplayInsertWatch = Stopwatch.StartNew();
 
-            //Create Splay tree
+            int gap = 7919;
 
-
-            for (int i = 0; i < 999999; i++)
+            for (int i = 0; i < 1000000; ++i)
             {
-                //treeName.insert(i)
+                SplayTree.insert(gap);
+                gap += 7919;
+                if (gap > 1000000)
+                {
+                    gap %= 1000000;
+                }
             }
 
             Boolean allThere = true;
-            for (int i = 0; i < 999999; i++)
+            for (int i = 1; i <= 1000000; i++)
             {
                 //check that all numbers were inserted - use contains method
-                if (//treeName.contains(i) == false)
+                if (SplayTree.contains(i) == false)
                 {
                     allThere = false;
                     Console.WriteLine("Not all numbers are in the Splay Tree correctly");
@@ -130,16 +156,16 @@ namespace AVL_Trees_PA3
             //Start watch
             AVLContainsWatch = Stopwatch.StartNew();
 
-            //create AVL Tree
-            //insert numbers 0-9999999
-
-            for(int i = 0; i < 9999999; i++)
+            Boolean allThere = true;
+            for (int i = 1; i <= 1000000; i++)
             {
-                for(int j = 0; j < 10; j++)
+                for (int j = 0; j < 10; j++)
                 {
-                    //if(treeName.contains(i) == false)
+                    //check that all numbers were inserted - use contains method
+                    if (AvlTree.contains(i) == false)
                     {
-                        Console.WriteLine("Error, number not found");
+                        allThere = false;
+                        Console.WriteLine("Not all numbers are in the AVL Tree correctly");
                         break;
                     }
                 }
@@ -153,16 +179,16 @@ namespace AVL_Trees_PA3
             //Start watch
             BSTContainsWatch = Stopwatch.StartNew();
 
-            //create BST Tree
-            //insert numbers 0-9999999
-
-            for (int i = 0; i < 9999999; i++)
+            Boolean allThere = true;
+            for (int i = 1; i <= 1000000; i++)
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    //if(treeName.contains(i) == false)
+                    //check that all numbers were inserted - use contains method
+                    if (BinarySearchTree.contains(i) == false)
                     {
-                        Console.WriteLine("Error, number not found");
+                        allThere = false;
+                        Console.WriteLine("Not all numbers are in the BST Tree correctly");
                         break;
                     }
                 }
@@ -176,16 +202,17 @@ namespace AVL_Trees_PA3
             //Start watch
             SplayContainsWatch = Stopwatch.StartNew();
 
-            //create Splay Tree
-            //insert numbers 0-9999999
 
-            for (int i = 0; i < 9999999; i++)
+            Boolean allThere = true;
+            for (int i = 1; i <= 1000000; i++)
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    //if(treeName.contains(i) == false)
+                    //check that all numbers were inserted - use contains method
+                    if (SplayTree.contains(i) == false)
                     {
-                        Console.WriteLine("Error, number not found");
+                        allThere = false;
+                        Console.WriteLine("Not all numbers are in the Splay Tree correctly");
                         break;
                     }
                 }
@@ -202,12 +229,10 @@ namespace AVL_Trees_PA3
             //start watch
             AVLRemovalWatch = Stopwatch.StartNew();
 
-            //create AVL tree
-            //Insert numers 0-999999
 
-            for(int i = 0; i < 999999; i++)
+            for(int i = 1; i <= 1000000; i++)
             {
-                //AVLTree.remove(i)
+                AvlTree.remove(i);
             }
 
             AVLRemovalWatch.Stop();
@@ -218,12 +243,10 @@ namespace AVL_Trees_PA3
             //start watch
             BSTRemovalWatch = Stopwatch.StartNew();
 
-            //create BST tree
-            //Insert numers 0-999999
 
-            for (int i = 0; i < 999999; i++)
+            for (int i = 1; i <= 1000000; i++)
             {
-                //AVLTree.remove(i)
+                BinarySearchTree.remove(i);
             }
 
             BSTRemovalWatch.Stop();
@@ -234,38 +257,41 @@ namespace AVL_Trees_PA3
             //start watch
             SplayRemovalWatch = Stopwatch.StartNew();
 
-            //create Splay tree
-            //Insert numers 0-999999
 
-            for (int i = 0; i < 999999; i++)
+            for (int i = 1; i <= 1000000; i++)
             {
-                //AVLTree.remove(i)
+                SplayTree.remove(i);
             }
 
             SplayRemovalWatch.Stop();
         }
 
-        static public void Main(String[] args)
+        static void Main(String[] args)
         {
             Program program = new Program();
 
+            Console.WriteLine("Test:\t|\tInsert:\t|\tContains\t|\tRemove\t|");
+            Console.WriteLine("-----------------------------------------------------------------");
+
             program.InsertionAVL();
-            program.InsertionBST();
-            program.InsertionSplay();
-
             program.ContainsAVL();
-            program.ContainsBST();
-            program.ContainsSplay();
-
             program.AVLRemoval();
-            program.BSTRemoval();
-            program.SplayRemoval();
+            Console.WriteLine($"AVL:\t|\t" + program.AVLInsertWatch.ElapsedMilliseconds + "\t|\t" + program.AVLContainsWatch.ElapsedMilliseconds + "\t\t|\t" + program.AVLRemovalWatch.ElapsedMilliseconds + "\t|");
 
-            Console.WriteLine("Test:\t\tInsert:\t|\tContains\t|\tRemove\t|");
-            Console.WriteLine("-----------------------------------------------------");
-            Console.WriteLine($"AVL:\t|\t{program.AVLInsertWatch}\t|\t{program.AVLContainsWatch}\t|\t{program.AVLRemovalWatch}\t|");
-            Console.WriteLine($"BST:\t|\t{program.BSTInsertionWatch}\t|\t{program.BSTContainsWatch}\t|\t{program.BSTRemovalWatch}\t|");
-            Console.WriteLine($"Splay:\t|\t{program.SplayInsertWatch}\t|\t{program.SplayContainsWatch}\t|\t{program.SplayRemovalWatch}\t|");
+
+            program.InsertionSplay();
+            program.ContainsSplay();
+            program.SplayRemoval();
+            Console.WriteLine($"Splay:\t|\t" + program.SplayInsertWatch.ElapsedMilliseconds + "\t|\t" + program.SplayContainsWatch.ElapsedMilliseconds + "\t\t|\t" + program.SplayRemovalWatch.ElapsedMilliseconds + "\t|");
+
+
+            program.InsertionBST();
+            program.ContainsBST();
+            program.BSTRemoval();
+            Console.WriteLine($"BST:\t|\t" + program.BSTInsertionWatch.ElapsedMilliseconds + "\t|\t" + program.BSTContainsWatch.ElapsedMilliseconds + "\t\t|\t" + program.BSTRemovalWatch.ElapsedMilliseconds + "\t|");
+            
+
+
 
 
         }
